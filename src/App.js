@@ -1,98 +1,230 @@
-import React, {useState} from 'react';
+// import React, {useState} from 'react';
+// import './App.css';
+
+// function App() {
+
+//   const [cl, setcl] = useState([]);
+//   const [clInput, setclInput] = useState('');
+
+//   const clChange = (e) => {
+//     setclInput(e.target.value);
+//   }
+
+//   const clSubmit = (e) => {
+//     e.preventDefault();
+//     setcl([...cl, clInput]);
+//     setclInput('');
+//   }
+
+//   const clRemove = (index) => {
+//     const newcl = [...cl];
+//     newcl.splice(index, 1);
+//     setcl(newcl);
+//   }
+
+//     return (
+//       <div className='left'>
+//         <h1>Tasks: {cl.length}</h1>
+//         <input type="text" value={clInput} onChange={clChange} />
+//         <button onClick={clSubmit}> + Add Task </button>
+//         <button onClick={() => setcl([])}> - Clear All Tasks </button>
+//         <ul>
+//         {cl.map((item, index) => (
+//           <li key={index}>
+//           <button onClick={() => clRemove(index)}> ✓ </button>
+//           {item}
+//           </li>
+//         ))}
+//         </ul>
+//       </div>
+//     );
+//   }
+
+//   export default App;  
+
+
+// import React, { useState } from 'react';
+// import './App.css';
+
+// function App() {
+//   const [cl, setcl] = useState([]);
+//   const [clInput, setclInput] = useState('');
+
+//   const clChange = (e) => {
+//     setclInput(e.target.value);
+//   }
+
+//   const clSubmit = (e) => {
+//     e.preventDefault();
+//     setcl([...cl, { text: clInput, completed: false }]);
+//     setclInput('');
+//   }
+
+//   const togglecomplete = (index) => {
+//     const newcl = [...cl];
+//     newcl[index].completed = !newcl[index].completed;
+//     setcl(newcl);
+//   }
+
+//   return (
+//     <div className='cl' id = 'cl'>
+//       <h1>Tasks: {cl.length}</h1>
+//       <input type="text" value={clInput} onChange={clChange} />
+//       <button onClick={clSubmit}> + Add Task </button>
+//       <button onClick={() => setcl([])}> - Clear All Tasks </button>
+//       <ul>
+//         {cl.map((task, index) => (
+          
+//           <li key={index} style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+//           <input type="checkbox" checked={task.completed} onChange={() => togglecomplete(index)} />
+//             {task.text}
+            
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [cl, setcl] = useState([]);
+  const [clInput, setclInput] = useState('');
+  const [editIndex, setEditIndex] = useState(null);
+  const [editInput, setEditInput] = useState('');
 
-  // const [tasks, setTask] = useState(0);
-  // const [input, setInput] = useState('');
-
-
-
-  // const addTask = () => {
-  //   setTask(tasks + 1);
-  // }
-
-  // const handleChange = (e) => {
-  //   setInput(e.target.value);
-  // }
-
-  // const delTask = () => {
-  //   setTask(tasks - 1);
-  // }
-
-  const [checkList, setChecklist] = useState([]);
-  const [checklistInput, setChecklistInput] = useState('');
-
-  const handleChecklistChange = (e) => {
-    setChecklistInput(e.target.value);
+  const clChange = (e) => {
+    setclInput(e.target.value);
   }
 
-  const handleChecklistSubmit = (e) => {
+  const clSubmit = (e) => {
     e.preventDefault();
-    setChecklist([...checkList, checklistInput]);
-    setChecklistInput('');
+    if (editIndex !== null) {
+      const newcl = [...cl];
+      newcl[editIndex].text = editInput;
+      setcl(newcl);
+      setEditIndex(null);
+      setEditInput('');
+    } else {
+      setcl([...cl, { text: clInput, completed: false }]);
+      setclInput('');
+    }
   }
 
-  const handleChecklistRemove = (index) => {
-    const newChecklist = [...checkList];
-    newChecklist.splice(index, 1);
-    setChecklist(newChecklist);
+  const togglecomplete = (index) => {
+    const newcl = [...cl];
+    newcl[index].completed = !newcl[index].completed;
+    setcl(newcl);
   }
 
-    return (
-      <div className='left'>
-        <h1>Tasks: {checkList.length}</h1>
-        <input type="text" value={checklistInput} onChange={handleChecklistChange} />
-        <button onClick={handleChecklistSubmit}> + Add Task </button>
-        <button onClick={() => setChecklist([])}> - Clear All Tasks </button>
-        <ol>
-        {checkList.map((item, index) => (
-          <li key={index}>
-          <button onClick={() => handleChecklistRemove(index)}> ✓ </button>
-          {item}
-          </li>
-        ))}
-        </ol>
+  const EditClick = (index) => {
+    setEditIndex(index);
+    setEditInput(cl[index].text);
+  }
+
+  const KeyPress = (e) => {
+    if (e.key === 'Enter') {
+      clSubmit(e);
+    }
+  }
+
+  const KeyPress2 = (e) => {
+    if (e.key === 'Backspace') {
+      setcl([]);
+    }
+  }
+
+  return (
+    <div className='cl' id='cl'>
+      <h1>Tasks: {cl.length}</h1>
+      <div className="input-group">
+        <input
+          type="text"
+          value={editIndex !== null ? editInput : clInput}
+          onChange={(e) => editIndex !== null ? setEditInput(e.target.value) : clChange(e)}
+          onKeyPress={KeyPress}
+          onKeyUp={KeyPress2}
+        />
+        <button onClick={clSubmit}>
+          {editIndex !== null ? 'Save Task' : '+ Add Task'}
+        </button>
+        <button onClick={() => setcl([])}> - Clear All Tasks </button>
       </div>
-    );
-  }
+      <ul>
+        {cl.map((task, index) => (
+          <li
+            key={index}
+            style={{ textDecoration: task.completed ? 'line-through' : 'none' }}
+            onClick={() => togglecomplete(index)}
+          >
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => togglecomplete(index)}
+              onClick={(e) => e.stopPropagation()}
+            />
+            {task.text}
+            <button onClick={() => EditClick(index)}>Edit</button>
+          </li>
+          
+        ))}
+      </ul>
+    </div>
+  );
+}
 
-  export default App;  
+export default App;
+
+
+
+
+
+
+
+
+
+
+
 
 
   // return (
   //   <div className="App">
   //     <h1>Tasks: {tasks}</h1>
   //     <button onClick={delTask}> ✓ </button>
-  //     <input type="text" value={input} onChange={handleChange} />
+  //     <input type="text" value={input} onChange={Change} />
   //     <button onClick={addTask}> + </button>
       
       
-  //     <button onClick={handleChecklist}> Show Checklist </button>
-  //     {checkList()}
+  //     <button onClick={cl}> Show cl </button>
+  //     {cl()}
   //   </div>
   // );
 
   
-  // const [checklist, setChecklist] = useState([]);
-  // const [checklistInput, setChecklistInput] = useState('');
+  // const [cl, setcl] = useState([]);
+  // const [clInput, setclInput] = useState('');
 
 
-  // const handleChecklistChange = (e) => {
-  //   setChecklistInput(e.target.value);
+  // const clChange = (e) => {
+  //   setclInput(e.target.value);
   // }
-  // const handleChecklistSubmit = (e) => {
+  // const clSubmit = (e) => {
   //   e.preventDefault();
-  //   setChecklist([...checklist, checklistInput]);
-  //   setChecklistInput('');
+  //   setcl([...cl, clInput]);
+  //   setclInput('');
   // }
-  // checklist = () => {
+  // cl = () => {
   //   return (
   //     <div>
-  //       <input type="text" value={checklistInput} onChange={handleChecklistChange} />
-  //       <button onClick={handleChecklistSubmit}> + </button>
+  //       <input type="text" value={clInput} onChange={clChange} />
+  //       <button onClick={clSubmit}> + </button>
   //       <ul>
-  //         {checklist.map((item, index) => (
+  //         {cl.map((item, index) => (
   //           <li key={index}>{item}</li>
   //         ))}
   //       </ul>
@@ -105,15 +237,15 @@ function App() {
     // <div className="App">
     //   <h1>Tasks: {tasks}</h1>
     //   <button onClick={delTask}> ✓ </button>
-    //   <input type="text" value={input} onChange={handleChange} />
+    //   <input type="text" value={input} onChange={Change} />
     //   <button onClick={addTask}> + </button>
       
-    //   <button onClick={handleSubmit}> Add Task </button>
-    //   <button onClick={handleDelete}> Delete Task </button>
-    //   <button onClick={handleEdit}> Edit Task </button>
-    //   <button onClick={handleComplete}> Complete Task </button>
-    //   <button onClick={handleChecklist}> Show Checklist </button>
-    //   {checklist()}
+    //   <button onClick={Submit}> Add Task </button>
+    //   <button onClick={Delete}> Delete Task </button>
+    //   <button onClick={Edit}> Edit Task </button>
+    //   <button onClick={Complete}> Complete Task </button>
+    //   <button onClick={cl}> Show cl </button>
+    //   {cl()}
     // </div>
 // );
 
@@ -121,11 +253,11 @@ function App() {
   // input = () => {
   //   return (
   //     <div>
-  //       <input type="text" value={input} onChange={handleChange} />
-  //       <button onClick={handleSubmit}> Add Task </button>
-  //       <button onClick={handleDelete}> Delete Task </button>
-  //       <button onClick={handleEdit}> Edit Task </button>
-  //       <button onClick={handleComplete}> Complete Task </button>
+  //       <input type="text" value={input} onChange={Change} />
+  //       <button onClick={Submit}> Add Task </button>
+  //       <button onClick={Delete}> Delete Task </button>
+  //       <button onClick={Edit}> Edit Task </button>
+  //       <button onClick={Complete}> Complete Task </button>
   //     </div>
   //   );
   // }
@@ -140,7 +272,7 @@ function App() {
     //       type="text" 
     //       value={input}
     //       onChange={(e) => setInput(e.target.value)}
-    //       placeholder="Add a new task"
+    //       placehulder="Add a new task"
     //     />
     //     <button onClick={addTask}>Add</button>
     //   </div>

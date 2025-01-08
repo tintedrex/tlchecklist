@@ -1,3 +1,79 @@
+/* .cl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+  width: 50%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cl h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.cl input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.cl button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cl button:hover {
+  background-color: #0056b3;
+}
+
+.cl ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+.cl li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+.cl li:hover {
+  background-color: #f1f1f1;
+}
+
+.cl li input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.cl li.completed {
+  text-decoration: line-through;
+  color: #999;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +111,80 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  /* background: linear-gradient(90deg, aqua, green); */
+}
+
+.cl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.cl h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.cl .input-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.cl input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.cl button {
+  padding: 10px 10px;
+  margin-left: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: blue;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cl ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+.cl li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+
+  justify-content: space-between;
+
+  margin-bottom: 5px;
+  border: 1px solid;
+  border-radius: 5px;
+}
+
+.cl li input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.cl li.completed {
+  text-decoration: line-through;
 }
